@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)file:///home/july/monitoring/Icinga%20add%20new%20server.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>Icinga add new server</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+<script src="static/jquery.min.js"></script>
+<script src="static/bootstrap.min.js"></script>
+<link rel="stylesheet" href="static/bootstrap.min.css">
+<link rel="stylesheet" href="static/login.css">
+<style type="text/css">
+	.bs-example{
+		margin: 20px;
+	}
+</style>
+
+</head>
+<body>
+<div class="container">
+<div class="row">
+        <div class="col-md-offset-5 col-md-3" style="
+    height: 500px;
+    padding-left: 30px;
+    width: 530px;
+">  
+    <form action="" method="post" class="">
+	 <h1 align="center"> <img src="static/icinga_logo4.png" height="170" width="490" align="center"></h1>
+	<div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">ip address</span>
+        <input type="text" class="form-control"  placeholder="ip address" name="ip" value="" aria-describedby="basic-addon1" style="">
+      </div> 
+      <div class="input-group"> 
+        <span class="input-group-addon" id="basic-addon1">instance name</span>
+        <input type="text" class="form-control" placeholder="instance name" name="instance_name" value="" aria-describedby="basic-addon1">
+</div>
+        <div class="input-group">
+	
+        <span class="input-group-addon" id="basic-addon1">default check command</span>
+        <input type="text" class="form-control" placeholder="check command" name="check_command" value="check_http" aria-describedby="basic-addon1">
+        </div>
+	<div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">contact group</span>
+        <input type="text" class="form-control" placeholder="admins" name="contact_group" value="admins" aria-describedby="basic-addon1">
+        
+	</div>
+	<div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Default notification interval</span>
+        <input type="text" class="form-control" placeholder="1" name="notification_interval" value="1" aria-describedby="basic-addon1">
+        </div>
+        
+        
+<div class="wrapper">
+            <span class="group-btn"> 
+         <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit" style="">
+</span>
+	
+	 
+            </div>
+      </form>
+      {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+        <li>{{ message | safe }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+</div>
+</div>
+</div>
+
+          
+           
+
+                                		
+</body></html>
