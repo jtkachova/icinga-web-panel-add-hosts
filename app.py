@@ -1,6 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
-import ldap
 import os
 import cgi
 import re
