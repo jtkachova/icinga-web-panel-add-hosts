@@ -50,9 +50,9 @@ def add_host_services(config_file,tmp_file,instance_name,arg1='CPU',arg2='LOAD',
 class ValidationForm(Form):
     ip = TextAreaField('ip', [validators.InputRequired()])
     instance_name = TextAreaField('instance name', [validators.InputRequired()])
-    check_command = TextAreaField('check command', [validators.InputRequired()])
-    contact_group = TextAreaField('contact group',[validators.InputRequired()])
-    notification_interval = TextAreaField('notification interval',[validators.InputRequired()])
+    check_command = TextAreaField('check command', [validators.InputRequired()], description=('check_ssh'))
+    contact_group = TextAreaField('contact group',[validators.InputRequired()], description=('admins'))
+    notification_interval = TextAreaField('notification interval',[validators.InputRequired()], description=('1'))
 
 
 @app.route('/', methods=['GET', 'POST'])
