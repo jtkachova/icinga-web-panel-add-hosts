@@ -11,6 +11,8 @@ web panel for adding new hosts to icinga configuration file
 
 -Flask-DebugToolbar==0.9.2
 
+-Flask-WTF==0.10.0
+
 ###Installation
 
 pip -r requirments.txt
