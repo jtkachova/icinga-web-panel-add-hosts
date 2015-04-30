@@ -6,11 +6,13 @@ import re
 import subprocess
 import shutil
 from functools import wraps
+from wtforms import Form, BooleanField, TextField, PasswordField, validators, TextAreaField
 app = Flask(__name__)
 app.secret_key = 'key'
 config_file = "/etc/icinga/objects/services.cfg"
 host_file = "/etc/icinga/objects/hosts.cfg"
 tmp_file = "/tmp/icinga_test.cfg"
+WTF_CSRF_SECRET_KEY = 'this-is-not-random-but-it-should-be'
 
 def generate_host_definition(ip,instance_name,contact_group, check_command, notification_interval):
 			string = 'define host{' + '\n   '  + \
@@ -45,16 +47,26 @@ def add_host_services(config_file,tmp_file,instance_name,arg1='CPU',arg2='LOAD',
 			f2.close
 			f1.close
 			shutil.copy2(tmp_file, config_file)
+class ValidationForm(Form):
+    ip = TextAreaField('ip', [validators.InputRequired()])
+    instance_name = TextAreaField('instance name', [validators.InputRequired()])
+    check_command = TextAreaField('check command', [validators.InputRequired()])
+    contact_group = TextAreaField('contact group',[validators.InputRequired()])
+    notification_interval = TextAreaField('notification interval',[validators.InputRequired()])
+
+
 @app.route('/', methods=['GET', 'POST'])
 def welcome():
     error = None
-    if request.method == 'POST':
-        ip = request.form['ip']
-        instance_name = request.form['instance_name']
-        check_command = request.form['check_command']
-        contact_group = request.form['contact_group']
-        notification_interval = request.form['notification_interval']
-        subprocess.os.environ['config_file'] = config_file
+
+    form = ValidationForm(request.form)
+    subprocess.os.environ['config_file'] = config_file
+    if request.method == 'POST'  and form.validate():
+        ip = form.ip.data
+        instance_name = form.instance_name.data
+        check_command = form.check_command.data
+        contact_group = form.contact_group.data
+        notification_interval = form.notification_interval.data
         string = generate_host_definition(ip,instance_name,contact_group, check_command, notification_interval)
         add_host_definition(host_file,string)
         add_host_services(config_file,tmp_file,instance_name)
@@ -63,15 +75,14 @@ def welcome():
         template = output[0]
         template =''.join(template)
         template = template.strip()
-        print(template)
         res = re.findall('OK', template)
         if res:
-            message = "ok"
+                flash("ok")
         else:
-            message = "adding to config failed. Please check your syntax"
-        #flash(message)
+                flash("adding to config failed. Please check your syntax")
 
-    return render_template('index.html', error=error)
+
+    return render_template('index.html', form=form)
 
 if __name__ == '__main__':
     app.debug = False
