@@ -33,7 +33,7 @@ By default icinga configuration files are:
 
 If you want to change paths,you can edit config_file and host_file variable in app.py
 
-Also new host adds to default checks:CPU,LOAD,Disk_Space
+Also if you use dedicated service.cfg file with predefined checks, you can use add_host_services function, in this case new host adds to default checks:CPU,LOAD,Disk_Space. By default this function commented. You can uncomment it if needed.
 
 They should be predefined in commands.cfg and in services,cfg, you can change this in function add_host_services in app.py
 

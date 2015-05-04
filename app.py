@@ -69,13 +69,14 @@ def welcome():
         notification_interval = form.notification_interval.data
         string = generate_host_definition(ip,instance_name,contact_group, check_command, notification_interval)
         add_host_definition(host_file,string)
-        add_host_services(config_file,tmp_file,instance_name)
-        rel = subprocess.Popen("/etc/init.d/icinga reload", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        #Uncomment this function if you use dedicated services.cfg file
+        #add_host_services(config_file,tmp_file,instance_name)
+        rel = subprocess.Popen("/etc/init.d/icinga reload|echo $?", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         output = rel.communicate()
         template = output[0]
         template =''.join(template)
         template = template.strip()
-        res = re.findall('OK', template)
+        res = re.findall('0', template)
         if res:
                 flash("ok")
         else:
@@ -86,4 +87,4 @@ def welcome():
 
 if __name__ == '__main__':
     app.debug = False
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
